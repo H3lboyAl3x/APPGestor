@@ -1,78 +1,71 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryAxis } from "victory-native";
+import React, { useCallback, useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from "victory-native";
+import { getUsers, initDB } from "../Banco_de_dados/database";
+import { Tarefa } from "../Banco_de_dados/type";
+import { useFocusEffect } from "expo-router";
 
-export default function Grafico() {
-  // Dados de exemplo: número de tarefas concluídas de segunda a domingo
-  const weeklyData = [
-    { x: "Seg", y: 4 },
-    { x: "Ter", y: 9 },
-    { x: "Qua", y: 2 },
-    { x: "Qui", y: 6 },
-    { x: "Sex", y: 8 },
-    { x: "Sáb", y: 3 },
-    { x: "Dom", y: 1 },
-  ];
+const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
-  return (
-    <View style={styles.Container}>
-      <View style={styles.Corpo}>
-        <Text style={styles.Titulo}>Tarefas da Semana</Text>
-
-        <VictoryChart
-          theme={VictoryTheme.material}
-          domainPadding={{ x: 20, y: 10 }}
-        >
-          {/* Eixo X: dias da semana */}
-          <VictoryAxis
-            tickValues={["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]}
-            style={{
-              tickLabels: { fontSize: 14, padding: 5 },
-            }}
-          />
-
-          {/* Eixo Y: número de tarefas */}
-          <VictoryAxis
-            dependentAxis
-            style={{
-              tickLabels: { fontSize: 12, padding: 5 },
-            }}
-          />
-
-          {/* Gráfico de barras */}
-          <VictoryBar
-            data={weeklyData}
-            x="x"
-            y="y"
-            barRatio={0.8}
-            style={{
-              data: { fill: "#4f6cff", borderRadius: 5 },
-            }}
-          />
-        </VictoryChart>
-      </View>
-    </View>
-  );
+function getWeekNumber(d: Date) {
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = date.getUTCDay() || 7;
+    date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return Math.ceil((((date.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 }
-
+export default function App() {
+    const [tarefa, settarefa] = useState<Tarefa[]>([]);
+    const [data, setData] = useState<{ day: number; count: number }[]>([]);
+    const carregarTarefa = async () => {
+        const lista = await getUsers();
+        settarefa(lista);
+    };
+    useFocusEffect(
+        useCallback(() => {
+            const carregar = async () => {
+                await initDB();
+                await carregarTarefa();
+            };
+            carregar();
+        },[])
+    );
+    useEffect(() => {
+        const contagemDias = [0, 0, 0, 0, 0, 0, 0];
+        const tarefasFiltradas = tarefa.filter(t => t.estado === 3);
+        const hoje = new Date();
+        const semanaAtual = getWeekNumber(hoje);
+        const tarefasSemanaAtual = tarefasFiltradas.filter(t => {
+            const dataObj = new Date(t.data);
+            return getWeekNumber(dataObj) === semanaAtual;
+        });
+        tarefasSemanaAtual.forEach(t => {
+            const dataObj = new Date(t.data);
+            let diaSemana = dataObj.getDay();
+            diaSemana = diaSemana === 0 ? 7 : diaSemana;
+            contagemDias[diaSemana - 1] += 1;
+        });
+        const graficoData = contagemDias.map((count, index) => ({
+            day: index + 1,
+            count
+        }));
+        setData(graficoData);
+    },[tarefa]);
+    return (
+        <View style={styles.container}>
+            <VictoryChart width={350} theme={VictoryTheme.material}>
+                <VictoryAxis tickValues={[1, 2, 3, 4, 5, 6, 7]} tickFormat={weekDays} />
+                <VictoryAxis dependentAxis />
+                <VictoryBar data={data} x="day" y="count" />
+            </VictoryChart>
+        </View>
+    );
+}
 const styles = StyleSheet.create({
-  Container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-  },
-  Corpo: {
-    backgroundColor: "rgba(217, 217, 217, 0.4)",
-    width: "95%",
-    height: "95%",
-    borderRadius: 25,
-    alignItems: "center",
-    paddingVertical: 20,
-  },
-  Titulo: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f5fcff"
+    }
 });
