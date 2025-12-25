@@ -4,6 +4,7 @@
 // Importação das Telas
 import Navegacao from '@/components/Telas/Navegacao';
 import Adicionar_tarefa from '@/components/Telas/Adicionar_tarefa';
+import Grafico from '@/components/Telas/grafico';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -22,6 +23,16 @@ export default function HomeScreen() {
           component={Adicionar_tarefa}
           options={{
             title: "Adicionar tarefa",
+            headerTitleStyle:{
+              fontSize:20
+            }
+          }}
+        />
+        <Stack.Screen 
+          name="Grafico" 
+          component={Grafico}
+          options={{
+            title: "Grafico",
             headerTitleStyle:{
               fontSize:20
             }

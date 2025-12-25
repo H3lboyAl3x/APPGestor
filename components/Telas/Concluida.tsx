@@ -3,6 +3,7 @@ import { deleteUser, getUsers, initDB } from "../Banco_de_dados/database";
 import { Tarefa } from "../Banco_de_dados/type";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Concluida({navigation}: any){
     const [tarefa, settarefa] = useState<Tarefa[]>([]);
@@ -50,6 +51,7 @@ export default function Concluida({navigation}: any){
                     contentContainerStyle={{ paddingBottom: 10 }}
                 />
                 <View style={styles.Barra}/>
+                <Ionicons style={styles.Botao} name="add-circle-outline" size={40} color="#000" onPress={() => navigation.navigate("Grafico")}/>
             </View>
         </View>
     );
@@ -90,5 +92,10 @@ const styles = StyleSheet.create({
     Texto:{
         fontSize: 17,
         color: "#000"
+    },
+    Botao:{
+        height: 40,
+        width: '10%',
+        marginBottom: "5%",
     },
 });
