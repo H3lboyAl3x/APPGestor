@@ -1,50 +1,73 @@
-# Welcome to your Expo app 👋
+# ⏱️ APPGestor
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo mobile desenvolvido em **React Native com Expo**, focado no **controle de tempo de tarefas, gestão de pausas, organização visual das atividades e relatórios semanais.**
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Tecnologias Utilizadas
 
-   ```bash
-   npm install
-   ```
+- ⚛️ React Native
+- 🚀 Expo
+- 🟢 Node.js
+- 📦 npm
+- 💾 SQLite(Armazenamento Local)
+- 📊 Victory Native (Gráficos)
+- 🔊 Áudio Local (alertas sonoros)
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📦 Pré-requisitos
 
-In the output, you'll find options to open the app in a
+Antes de executar o projeto, é necessário ter instalado:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js
+- npm (já incluido no Node)
+- Expo CLI ou Expo
+- Dispositivo Android ou Emulador Android
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🧠 Sobre o Aplicativo
 
-When you're ready, run:
+O APPGestor permite que o usuário:
 
-```bash
-npm run reset-project
-```
+- 📋 Crie e organize tarefas específicas
+- ⏱️ Tempo Definido de atividade e de descanso
+- 🔊 Receba alerta sonoro ao final do tempo (atividade ou pausa)
+- 📊 Visualize relatórios semanais em gráficos
+- 🗂️ Gerencie tarefas em um quadro organizado
+- 💾 Armazene tudo localmente no dispositivo
+- 📡 Utilize o aplicativo totalmente offline
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## ✨ Funcionalidades
 
-To learn more about developing your project with Expo, look at the following resources:
+- ➕ Criar tarefas
+- 📝 Editar tarefas
+- 🗑️ Excluir tarefas
+- ⏱️ Definir tempo de foco e tempo de pausa
+- 🔊 Alerta sonoro automático ao chegar em 00:00
+- 🔄 Alternância automática entre atividade e descanso
+- 🗂️ Quadro de tarefas para melhor visualização
+- 📊 Relatório semanal em gráfico (tarefas concluídas)
+- 💾 Persistência de dados local
+- 🎯 Interface simples e intuitiva
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 🎯 Objetivo do Projeto
 
-Join our community of developers creating universal apps.
+Este projeto foi desenvolvido com foco em:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- 📚 Aprimoramento em React Native
+- ⏱️ Controle de tempo e lógica de contadores
+
+---
+
+## 👨‍💻 Desenvolvedor
+
+Desenvolvido por Edgar Alexandre
+
+📍 Angola
+📱 Desenvolvedor Mobile
