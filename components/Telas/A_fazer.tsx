@@ -4,6 +4,7 @@ import { Tarefa } from "../Banco_de_dados/type";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
+import { Audio } from 'expo-av';
 
 const TOTAL_TIME = 25 * 60; 
 const PAUSE_TIME = 5 * 60;
@@ -23,19 +24,28 @@ export default function A_fazer({navigation}: any){
         setMinutes(String(mins).padStart(2, "0"));
         setSeconds(String(secs).padStart(2, "0"));
     }, [timeLeft]);
-    const pausa = useCallback(() => {
-        if (intervalRef.current !== null) {
-            clearInterval(intervalRef.current);
-        }
+    const pausa = useCallback(async () => {
+        const { sound } = await Audio.Sound.createAsync(
+            require('../../assets/som/alarme.mp3')
+        );
+        
         if (status === 0 && minutes === "00") {
             setTimeLeft(PAUSE_TIME);
             setstatus(1);
-            setMode("Pausa")
+            setMode("Pausa");
+            sound.playAsync();
+            setTimeout(() => {
+                sound.unloadAsync();
+            }, 2000);
         } 
         else if (status === 1 && minutes === "00") {
             setTimeLeft(TOTAL_TIME);
             setstatus(0);
-            setMode("Atividade")
+            setMode("Atividade");
+            sound.playAsync();
+            setTimeout(() => {
+                sound.unloadAsync();
+            }, 2000);
         }
     }, [status, minutes]);
     useEffect(() => {
@@ -75,11 +85,11 @@ export default function A_fazer({navigation}: any){
         setRunning(false);
         if (status === 0) {
             setTimeLeft(TOTAL_TIME);
-            setMode("Atividade")
+            setMode("Atividade");
         } 
         else if (status === 1) {
             setTimeLeft(PAUSE_TIME);
-            setMode("Pausa")
+            setMode("Pausa");
         }
     };
     const handleLongPress = (item: Tarefa) => {

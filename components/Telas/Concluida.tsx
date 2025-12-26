@@ -51,7 +51,7 @@ export default function Concluida({navigation}: any){
                     contentContainerStyle={{ paddingBottom: 10 }}
                 />
                 <View style={styles.Barra}/>
-                <Ionicons style={styles.Botao} name="add-circle-outline" size={40} color="#000" onPress={() => navigation.navigate("Grafico")}/>
+                <Ionicons style={styles.Botao} name="bar-chart-outline" size={40} color="#000" onPress={() => navigation.navigate("Grafico")}/>
             </View>
         </View>
     );
