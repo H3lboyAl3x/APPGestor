@@ -6,8 +6,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
 import { Audio } from 'expo-av';
 
-const TOTAL_TIME = 25 * 60; 
-const PAUSE_TIME = 5 * 60;
+const TOTAL_TIME = 0.1 * 60; 
+const PAUSE_TIME = 0.1 * 60;
 
 export default function A_fazer({navigation}: any){
     const [tarefa, settarefa] = useState<Tarefa[]>([]);
@@ -28,7 +28,7 @@ export default function A_fazer({navigation}: any){
         const { sound } = await Audio.Sound.createAsync(
             require('../../assets/som/alarme.mp3')
         );
-        
+        const tarefasAtivas = tarefa.filter(t => t.estado === 2);
         if (status === 0 && minutes === "00") {
             setTimeLeft(PAUSE_TIME);
             setstatus(1);
@@ -47,7 +47,7 @@ export default function A_fazer({navigation}: any){
                 sound.unloadAsync();
             }, 2000);
         }
-    }, [status, minutes]);
+    }, [status, minutes, tarefa]);
     useEffect(() => {
         if (!running) return;
         intervalRef.current = setInterval(() => {
@@ -67,7 +67,7 @@ export default function A_fazer({navigation}: any){
                 clearInterval(intervalRef.current);
             }
         };
-    }, [running, pausa]);
+    }, [running, pausa, tarefa]);
     const start = () => {   
         const tarefasAtivas = tarefa.filter(t => t.estado === 2);
         if (tarefasAtivas.length > 0) {
@@ -130,6 +130,20 @@ export default function A_fazer({navigation}: any){
             carregar();
         }, [])
     );
+    useEffect(() => {
+        const tarefasAtivas = tarefa.filter(t => t.estado === 2);
+
+        if (tarefasAtivas.length === 0 && running) {
+            if (intervalRef.current !== null) {
+                clearInterval(intervalRef.current);
+            }
+
+            setRunning(false);
+            setTimeLeft(TOTAL_TIME);
+            setstatus(0);
+            setMode("Atividade");
+        }
+    }, [tarefa, running]);
     return (
         <View style={styles.Container}>
             <View style={styles.Corpo}>
