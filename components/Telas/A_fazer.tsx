@@ -6,8 +6,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
 import { Audio } from 'expo-av';
 
-const TOTAL_TIME = 0.1 * 60; 
-const PAUSE_TIME = 0.1 * 60;
+const TOTAL_TIME = 25 * 60; 
+const PAUSE_TIME = 5 * 60;
 
 export default function A_fazer({navigation}: any){
     const [tarefa, settarefa] = useState<Tarefa[]>([]);
